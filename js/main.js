@@ -96,3 +96,37 @@ for (let i=0; i<posts.length; i++) {
     </div>
     `;
 };
+
+const likeButtons = document.querySelectorAll(`.js-like-button`);
+console.log(`likeButtons`, likeButtons, likeButtons.length);
+
+for(let i=0; i<likeButtons.length; i++) {
+    likeButtons[i].addEventListener(`click`, function(event) {
+        event.preventDefault();
+
+        //console.log(`this`, this, typeof this);
+        if (!this.classList.contains(`like-button-liked`)) {
+            
+            this.classList.add(`like-button-liked`);
+            
+            const postId = this.getAttribute(`data-postid`)
+            const counterElement = document.getElementById(`like-counter-` + postId);
+            let likesCount = parseInt(counterElement.innerText);
+            likesCount++;
+            counterElement.innerHTML = likesCount;
+
+            likedPost.push(postId);
+
+            console.log(`like al post:`, likedPost)
+        }
+        else {
+            this.classList.remove(`like-button-liked`);
+            
+            const postId = this.dataset.postId;
+            const counterElement = document.getElementById(`like-counter-` + postId);
+            let likesCount = parseInt(counterElement.innerText);
+            likesCount--;
+            counterElement.innerHTML = likesCount;
+        }
+    });
+}
